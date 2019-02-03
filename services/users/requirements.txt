@@ -1,0 +1,2 @@
+#creating a requirements file to be able to download all the dependencies
+Flask==1.0.2
