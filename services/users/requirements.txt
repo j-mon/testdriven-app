@@ -1,2 +1,4 @@
 #creating a requirements file to be able to download all the dependencies
 Flask==1.0.2
+FLASK-SQLAlchemy==2.3.2
+psycopg2-binary==2.7.6.1
