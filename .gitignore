@@ -1,4 +1,2 @@
-#Check if these files will be uploaded
-#Github will ignore these files in the entire directory
 __pycache__
 env
