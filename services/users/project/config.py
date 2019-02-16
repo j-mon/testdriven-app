@@ -6,6 +6,7 @@ class BaseConfig:
     """Base configuration"""
     Testing = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False # new
+    SECRET_KEY = 'my_precious' #new, update base config
 
 
 class DevelopmentConfig(BaseConfig):
@@ -15,7 +16,7 @@ class DevelopmentConfig(BaseConfig):
 
 class TestingConfig(BaseConfig):
     """Testing configuration"""
-    Testing = True #this overwrites the testing variable in parent class
+    TESTING = True #this overwrites the testing variable in parent class
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_TEST_URL') # new
 
 

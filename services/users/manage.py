@@ -1,14 +1,17 @@
-# services/user/manage.py
+# services/users/manage.py
+
+
+import unittest
 
 from flask.cli import FlaskGroup
 
-from project import app, db #new
+from project import create_app, db   # new
+from project.api.models import User  # new
 
-cli = FlaskGroup(app)
+app = create_app()  # new
+cli = FlaskGroup(create_app=create_app)  # new
 
-# new
-#This register a new command recreate_db, to the cli
-#so that we can run it from CLI, which we'll use shortlly to apply the model to the database
+
 @cli.command('recreate_db')
 def recreate_db():
     db.drop_all()
@@ -16,5 +19,15 @@ def recreate_db():
     db.session.commit()
 
 
-if __name__ == "__main__":
+@cli.command()
+def test():
+    """Runs the tests without code coverage"""
+    tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
+    result = unittest.TextTestRunner(verbosity=2).run(tests)
+    if result.wasSuccessful():
+        return 0
+    return 1
+
+
+if __name__ == '__main__':
     cli()
