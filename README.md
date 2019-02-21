@@ -2,4 +2,4 @@
 
 
 
-[![Build Status](https://travis-ci.org/j-mon/testdriven-app.svg?branch=master)](https://travis-ci.org/j-mon/testdriven-app)
+[![Build Status](https://travis-ci.com/j-mon/testdriven-app.svg?branch=master)](https://travis-ci.com/j-mon/testdriven-app.svg?branch=master)
