@@ -8,13 +8,12 @@ from project import db
 from project.api.models import User
 
 
-#helper function, to add a few users first to our user table in postgres
+# helper function, to add a few users first to our user table in postgres
 def add_user(username, email):
     user = User(username=username, email=email)
     db.session.add(user)
     db.session.commit()
     return user
-
 
 
 # Test class for User microservice
@@ -29,7 +28,6 @@ class TestUserService(BaseTestCase):
         self.assertIn('pong', data['message'])
         self.assertIn('success', data['status'])
 
-
     def test_add_user(self):
         """Ensure a new user can be added to the database."""
         with self.client:
@@ -42,10 +40,10 @@ class TestUserService(BaseTestCase):
                 content_type='application/json',
             )
             data = json.loads(response.data.decode())
-            self.assertEqual(response.status_code, 201) #created
-            self.assertIn('monsalve.jeffrey@gmail.com was added!', data['message'])
+            self.assertEqual(response.status_code, 201)     # created
+            self.assertIn('monsalve.jeffrey@gmail.com was added!',
+                          data['message'])
             self.assertIn('success', data['status'])
-
 
     def test_add_user_invalid_json(self):
         """Ensure error is thrown if the JSON object is empty."""
@@ -83,21 +81,21 @@ class TestUserService(BaseTestCase):
                 data=json.dumps({
                     'username': 'jeffrey',
                     'email': 'monsalve.jeffrey@gmail.com'
-                    }),
-                    content_type='application/json',
-                    )
+                }),
+                content_type='application/json',
+                )
             response = self.client.post(
                 '/users',
                 data=json.dumps({
-                'username': 'jeffrey',
-                'email': 'monsalve.jeffrey@gmail.com'
-            }),
-            content_type='application/json',
+                    'username': 'jeffrey',
+                    'email': 'monsalve.jeffrey@gmail.com'
+                }),
+                content_type='application/json',
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
-            self.assertIn(
-            'Sorry. That email already exists.', data['message'])
+            self.assertIn('Sorry. That email already exists.',
+                          data['message'])
             self.assertIn('fail', data['status'])
 
     # refactored
@@ -112,7 +110,6 @@ class TestUserService(BaseTestCase):
             self.assertIn('monsalve.jeffrey@gmail.com', data['data']['email'])
             self.assertIn('success', data['status'])
 
-
         """Ensure get single user behaves correctly."""
         user = User(username='jeffrey', email='monsalve.jeffrey@gmail.com')
         db.session.add(user)
@@ -125,7 +122,6 @@ class TestUserService(BaseTestCase):
             self.assertIn('monsalve.jeffrey@gmail.com', data['data']['email'])
             self.assertIn('success', data['status'])
 
-
     def test_single_user_no_id(self):
         """Ensure error is thrown if an id is an not provided."""
         with self.client:
@@ -135,7 +131,6 @@ class TestUserService(BaseTestCase):
             self.assertIn('User does not exist', data['message'])
             self.assertIn('fail', data['status'])
 
-
     def test_single_user_incorrect_id(self):
         """Ensure error is thrown if the id does not exist."""
         with self.client:
@@ -144,7 +139,6 @@ class TestUserService(BaseTestCase):
             self.assertEqual(response.status_code, 404)
             self.assertIn('User does not exist', data['message'])
             self.assertIn('fail', data['status'])
-
 
     def test_all_users(self):
         """Ensure get all users behave correctly."""
@@ -156,8 +150,8 @@ class TestUserService(BaseTestCase):
             self.assertEqual(response.status_code, 200)
             self.assertEqual(len(data['data']['users']), 2)
             self.assertIn('jeffrey', data['data']['users'][0]['username'])
-            self.assertIn(
-                'monsalve.jeffrey@gmail.com', data['data']['users'][0]['email'])
+            self.assertIn('monsalve.jeffrey@gmail.com',
+                          data['data']['users'][0]['email'])
             self.assertIn('fletcher', data['data']['users'][1]['username'])
             self.assertIn(
                 'fletcher@notreal.com', data['data']['users'][1]['email']
@@ -199,7 +193,6 @@ class TestUserService(BaseTestCase):
             self.assertIn(b'All Users', response.data)
             self.assertNotIn(b'<p>No users!<p>', response.data)
             self.assertIn(b'michael', response.data)
-
 
 
 if __name__ == '__main__':
