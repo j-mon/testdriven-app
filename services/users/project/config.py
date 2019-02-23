@@ -8,7 +8,7 @@ class BaseConfig:
     Testing = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # new
     SECRET_KEY = 'my_precious'  # new, update base config
-    DEBUG_TB_ENABLED = False               #    new
+    DEBUG_TB_ENABLED = False
     DEBUG_TB_INTERCEPT_REDIRECTS = False    # new
 
 
@@ -26,4 +26,4 @@ class TestingConfig(BaseConfig):
 
 class ProductionConfig(BaseConfig):
     """Production configuration"""
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')    # new
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')  # new
