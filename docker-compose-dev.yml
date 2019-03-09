@@ -18,6 +18,7 @@ services:
     depends_on: #new
       - users-db
 
+
   users-db: #new
     build:
       context: ./services/users/project/db
@@ -35,5 +36,21 @@ services:
     restart: always
     ports:
       - 80:80
+    depends_on:
+      - users
+      - client # new
+
+  client:
+    build:
+      context: ./services/client
+      dockerfile: Dockerfile-dev
+    volumes:
+      - './services/client:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - 3007:3000
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
     depends_on:
       - users

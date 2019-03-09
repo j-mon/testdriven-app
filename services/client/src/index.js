@@ -14,8 +14,8 @@ class App extends Component {
     // new
     this.state = {
       users: [],
-      username: 'test', // new
-      email: 'test', // new
+      username: '', // new
+      email: '', // new
     };
     this.addUser = this.addUser.bind(this); //new
     this.handleChange = this.handleChange.bind(this);

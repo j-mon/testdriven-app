@@ -26,6 +26,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
+  #reverse proxy to route traffic to the users and client service, can't start routing traffic until services are up.
   nginx:
     build:
       context: ./services/nginx
@@ -33,5 +34,19 @@ services:
     restart: always
     ports:
       - 80:80
+    depends_on:
+      - users
+      - client #Again, the client service needs to spin up before nginx,
+
+  client:
+    container_name: client
+    build:
+      context: ./services/client
+      dockerfile: Dockerfile-prod
+      args:
+        - NODE_ENV=production
+        - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+    ports:
+      - '3007:80'
     depends_on:
       - users
