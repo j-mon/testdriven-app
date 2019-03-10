@@ -6,17 +6,9 @@ import unittest
 from project.tests.base import BaseTestCase
 from project import db
 from project.api.models import User
+from project.tests.utils import add_user
 
 
-# helper function, to add a few users first to our user table in postgres
-def add_user(username, email):
-    user = User(username=username, email=email)
-    db.session.add(user)
-    db.session.commit()
-    return user
-
-
-# Test class for User microservice
 class TestUserService(BaseTestCase):
     """Tests for the Users Service."""
 
@@ -100,16 +92,6 @@ class TestUserService(BaseTestCase):
 
     # refactored
     def test_single_user(self):
-        """Ensure get single user behaves correctly."""
-        user = add_user('jeffrey', 'monsalve.jeffrey@gmail.com')
-        with self.client:
-            response = self.client.get(f'/users/{user.id}')
-            data = json.loads(response.data.decode())
-            self.assertEqual(response.status_code, 200)
-            self.assertIn('jeffrey', data['data']['username'])
-            self.assertIn('monsalve.jeffrey@gmail.com', data['data']['email'])
-            self.assertIn('success', data['status'])
-
         """Ensure get single user behaves correctly."""
         user = User(username='jeffrey', email='monsalve.jeffrey@gmail.com')
         db.session.add(user)
